@@ -1,4 +1,4 @@
-# AF-density
+# Atrial Fibrillation density (AF Density)
 Functions to calculate AF density based on data from continuous rhythm monitoring
 
 AF.density.function.R returns a numerical calculation of AF density
