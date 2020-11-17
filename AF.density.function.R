@@ -1,13 +1,13 @@
 # AF density function
 # Author Efstratios I. Charitos, MD, PhD efstratios.charitos@gmail.com
-# Date: 08-Nov-2020 v.4 BETA
+# Date: 08-Nov-2020 v.4.1 BETA
 
 #data is a vector of daily AF minutes
 #timeunits = how many time units (data) are in one day : If data is in days then timeunits=24; if data is in minutes then timeunits=1440
 #limit=T  hardcodes a density of 1 in cases of >1 results (high burdens)
 #the switch expand.vector.resolution.minute.level=F expands the input vector of daily AF minutes to 1 minute intervals.
 
-AF.density.temp<-function(data, minim=0.001, timeunits=1440, limit=T, expand.vector.resolution.minute.level=F){
+AF.density<-function(data, minim=0.001, timeunits=1440, limit=T, expand.vector.resolution.minute.level=F){
 
 	if ( expand.vector.resolution.minute.level==T) {
 	timeunits=1
