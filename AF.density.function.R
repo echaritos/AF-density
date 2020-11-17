@@ -1,6 +1,6 @@
 # AF density function
 # Author Efstratios I. Charitos, MD, PhD efstratios.charitos@gmail.com
-# Date: 08-Nov-2020 v.4.1 BETA
+# Date: 17-Nov-2020 v.4.1 BETA
 
 #data is a vector of daily AF minutes
 #timeunits = how many time units (data) are in one day : If data is in days then timeunits=24; if data is in minutes then timeunits=1440
