@@ -19,39 +19,45 @@ AF.density.temp<-function(data, minim=0.001, timeunits=1440, limit=T, expand.vec
 	
 	
 	#f2 function
-	f2<-function(minim=0.001, maxim=0.999, b=0.001,data){
-		
-		
-		f<-function(x, max) {
-			
-			#rolly  
-			s <- 0
-			len <- Inf
-			start <- 1
-			j <- 1
-			for (i in seq_along(x)) {
-				s <- s + x[i]
-				while (s >= max) {
-					if (i-j+1 < len) {
-						len <- i-j+1
-						start <- j
-					}
-					s <- s - x[j]
-					j <- j + 1
-				}
-			}
-			
-			list(start=start, length=len)
-			
-			len
-		}
-		
-		k<-NULL
-		for (m in seq(from=minim, to=maxim, by=b)){ k<-c(k,f(data,m))} 
-		k.per<-k/length(data)
-		return(k.per)
-		
-	}
+	   f2 <- function(v, minim, maxim, b, timeunits) {
+      tx <- seq(minim, maxim, b)
+      min_n_units <- ceiling(tx*sum(v)) #minimum number of 1s needed to reach desired prop
+      maxM <- length(min_n_units)
+      k <- numeric(maxM)
+      if(timeunits == 1) {
+        
+        rle_v <- rle(v)
+        cont_blocks <- rle_v$lengths[rle_v$values == 1]   #length of blocks of contiguous 1s
+        
+        #find the lengths fit within a block of contiguous ones 
+        k[min_n_units <= max(cont_blocks)] <- min_n_units[min_n_units <= max(cont_blocks)]   
+        
+        zero_spaces <- rle_v$lengths[rle_v$values == 0]
+        if(rle_v$values[1] == 0)  zero_spaces <- zero_spaces[-1]   
+        
+        nblocks <- 2
+        
+        while(k[maxM] == 0) {
+          len <- roll_sum(cont_blocks, nblocks)
+          pad <- roll_sum(zero_spaces, nblocks - 1)
+          
+          pos_to_look <- which(k == 0 & min_n_units <= max(len))
+          
+          for(i in pos_to_look) {
+            k[i] <- min_n_units[i] + min(pad[len-min_n_units[i]>=0])
+          }
+          nblocks <- nblocks + 1
+        }
+      } else {
+        length_int <- 1
+        while (k[maxM] == 0) {
+          k[max(roll_sum(v,length_int)) >= min_n_units & k == 0] <- length_int
+          length_int <- length_int + 1
+        }
+      }
+      
+      return(k/length(v))
+    } 
 	
 	if (sum(data)==0) return(0) else { #CHECK
 	
