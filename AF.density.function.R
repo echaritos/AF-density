@@ -6,7 +6,7 @@
 #data is a vector of daily AF minutes
 #timeunits = how many time units (data) are in one day : If data is in days then timeunits=24; if data is in minutes then timeunits=1440
 #limit=T  hardcodes a density of 1 in cases of >1 results (high burdens)
-#the switch expand.vector.resolution.minute.level=F expands the input vector of daily AF minutes to 1 minute intervals. This handles single day episodes better (for an imput vector of daily AF minutes)
+#the switch expand.vector.resolution.minute.level=T expands the input vector of daily AF minutes to 1 minute intervals. This handles single day episodes better (for an imput vector of daily AF minutes)
 
 AF.density <- function(data, minim=0.001, timeunits=1440, limit=T, expand.vector.resolution.minute.level=T){
   
