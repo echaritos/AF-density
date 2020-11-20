@@ -1,14 +1,14 @@
 # AF density function
 # Author Efstratios I. Charitos, MD, PhD efstratios.charitos@gmail.com
-# Date: 20-Nov-2020 v.4.2 BETA
+# Date: 20-Nov-2020 v.4.2
+# Code optimization and speed improvements Joao Moteiro, PhD joao.v.monteiro@medtronic.com
 
 #data is a vector of daily AF minutes
 #timeunits = how many time units (data) are in one day : If data is in days then timeunits=24; if data is in minutes then timeunits=1440
 #limit=T  hardcodes a density of 1 in cases of >1 results (high burdens)
-#the switch expand.vector.resolution.minute.level=F expands the input vector of daily AF minutes to 1 minute intervals.
+#the switch expand.vector.resolution.minute.level=F expands the input vector of daily AF minutes to 1 minute intervals. This handles single day episodes better (for an imput vector of daily AF minutes)
 
-
-AF.density.v0.4.2 <- function(data, minim=0.001, timeunits=1440, limit=T, expand.vector.resolution.minute.level=T){
+AF.density <- function(data, minim=0.001, timeunits=1440, limit=T, expand.vector.resolution.minute.level=T){
   
   library(RcppRoll)
   
@@ -74,8 +74,7 @@ AF.density.v0.4.2 <- function(data, minim=0.001, timeunits=1440, limit=T, expand
     burden<-sum(data.test$afmin)/timeunits/length(data.test$afmin)
     data.test$daily.burd<-data.test$afmin#/sum(data.test$afmin)
     
-    raw.den<-(2*(sum(abs(seq(minim, maxim, b)-(f2(data.test$daily.burd, minim=minim, 
-                                                  maxim=maxim, b=b, timeunits=timeunits)))*b))/(1-burden))
+    raw.den<-(2*(sum(abs(seq(minim, maxim, b)-(f2(data.test$daily.burd, minim=minim, maxim=maxim, b=b, timeunits=timeunits)))*b))/(1-burden))
     
     
     density <- raw.den
