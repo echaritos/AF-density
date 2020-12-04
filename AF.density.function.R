@@ -86,7 +86,15 @@ AF.density.v0.4.3 <- function(data, minim=0.001, timeunits=1440, limit=T, expand
 
     # AF density is ratio of (area between "observed" and "uniform" curve) over (area between "max" and "uniform" curve)
     af.density <- sum(obs_diff_per_day) / sum(max_diff_per_day)
-    return(af.density)
+    
+    # Return calculated AF density value (0 if all values=0, 1 if all values=timeunits)
+    if (data_sum == 0) {
+      return(0)
+    } else if (data_sum == timeunits * n) {
+      return(1)
+    } else {
+      return(af.density)
+    }
   
   # Continuous mathematical definition of AF density
   } else {
