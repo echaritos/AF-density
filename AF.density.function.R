@@ -4,7 +4,7 @@
 # Code optimization and speed improvements Joao Moteiro, PhD joao.v.monteiro@medtronic.com
 # Discrete definition added by Sean R. Landman, PhD sean.landman@medtronic.com
 
-#data is a vector of daily AF minutes
+#data is an integer vector of daily AF minutes
 #timeunits = how many time units (data) are in one day : If data is in days then timeunits=24; if data is in minutes then timeunits=1440
 #limit=T  hardcodes a density of 1 in cases of >1 results (high burdens)
 #the switch expand.vector.resolution.minute.level=F expands the input vector of daily AF minutes to 1 minute intervals. This handles single day episodes better (for an imput vector of daily AF minutes)
